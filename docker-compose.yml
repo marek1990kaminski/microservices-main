@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  backend:
+    container_name: micro-oain-flask
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8001:5000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+  db:
+    container_name: micro-main-db
+    image: mariadb:10.7.1
+    restart: always
+    environment:
+      MYSQL_DATABASE: main
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - .dbdata:/var/lib/mysql
+    ports:
+      - "33067:3306"
