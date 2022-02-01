@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   backend:
-    container_name: micro-oain-flask
+    container_name: micro-main-flask
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
 
   db:
     container_name: micro-main-db
-    image: mariadb:10.7.1
+    image: mysql:5.7.22
     restart: always
     environment:
       MYSQL_DATABASE: main
