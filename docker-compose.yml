@@ -5,10 +5,20 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: 'python main.py'
     ports:
       - "8001:5000"
     volumes:
       - .:/app
+    depends_on:
+      - db
+
+  queue:
+    container_name: micro-main-queue
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'python consumer.py'
     depends_on:
       - db
 

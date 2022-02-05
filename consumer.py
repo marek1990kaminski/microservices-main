@@ -19,7 +19,7 @@ def callback(ch, method, properties, body):
     print(body)
 
 
-channel.basic_consume(queue=queue_name, on_message_callback=callback)
+channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
 
 print('Started consuming')
 
