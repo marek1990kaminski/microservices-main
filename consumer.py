@@ -1,5 +1,4 @@
 import json
-from enum import Enum
 
 import pika
 from pika import URLParameters, BlockingConnection
@@ -19,7 +18,7 @@ channel: BlockingChannel = connection.channel()
 channel.queue_declare(queue=queue_name)
 
 
-class ContentType(Enum):
+class ContentTypeEnum:
     product_created = 'product_created'
     product_updated = 'product_updated'
     product_deleted = 'product_deleted'
@@ -33,41 +32,22 @@ def callback(ch, method, properties, body):
     content_type: str = properties.content_type
 
     match content_type:
-        case ContentType.product_created:
+        case ContentTypeEnum.product_created:
             product = Product(id=data['id'], title=data['title'], image=data['image'])
             db.session.add(product)
             db.session.commit()
-            print(ContentType.product_created)
-        case ContentType.product_updated:
+            print(ContentTypeEnum.product_created)
+        case ContentTypeEnum.product_updated:
             product = Product.query.get(data['id'])
             product.title = data['title']
             product.image = data['image']
             db.session.commit()
-            print(ContentType.product_updated)
-        case ContentType.product_deleted:
+            print(ContentTypeEnum.product_updated)
+        case ContentTypeEnum.product_deleted:
             product = Product.query.get(data['id'])
             db.session.delete(product)
             db.session.commit()
-            print(ContentType.product_deleted)
-
-    # if properties.content_type == product_created:
-    #     product = Product(id=data['id'], title=data['title'], image=data['image'])
-    #     db.session.add(product)
-    #     db.session.commit()
-    #     print(product_created)
-    #
-    # elif properties.content_type == product_updated:
-    #     product = Product.query.get(data['id'])
-    #     product.title = data['title']
-    #     product.image = data['image']
-    #     db.session.commit()
-    #     print(product_updated)
-    #
-    # elif properties.content_type == product_deleted:
-    #     product = Product.query.get(data['id'])
-    #     db.session.delete(product)
-    #     db.session.commit()
-    #     print(product_deleted)
+            print(ContentTypeEnum.product_deleted)
 
 
 channel.basic_consume(queue=queue_name, on_message_callback=callback, auto_ack=True)
