@@ -1,4 +1,6 @@
-commands to build flask app:
+## commands to build flask app:  
+
+first enter container:  
 `docker-compose exec backend /bin/bash`
 
 inside run:  

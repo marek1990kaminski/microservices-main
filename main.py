@@ -32,8 +32,7 @@ class ProductUser(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
     product_id = db.Column(db.Integer)
-
-    UniqueConstraint('user_id', 'product_id', name='user_product_unique')
+    db.UniqueConstraint(user_id, product_id)
 
 
 @app.route('/api/products/')
@@ -47,8 +46,8 @@ def like(product_id):
     json = req.json()
 
     try:
-        productUser = ProductUser(user_id=json['id'], product_id=product_id)
-        db.session.add(productUser)
+        product_user = ProductUser(user_id=json['id'], product_id=product_id)
+        db.session.add(product_user)
         db.session.commit()
 
         publish('product_liked', product_id)
@@ -58,7 +57,6 @@ def like(product_id):
 
     return jsonify({
         'message': 'success',
-
     })
 
 
