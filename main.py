@@ -4,7 +4,6 @@ import requests
 from flask import Flask, jsonify, abort
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import UniqueConstraint
 
 from producer import publish
 
@@ -42,6 +41,7 @@ def index():
 
 @app.route('/api/products/<int:product_id>/like/', methods=['POST'])
 def like(product_id):
+    # random user
     req = requests.get('http://host.docker.internal:8000/api/user/')
     json = req.json()
 

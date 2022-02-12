@@ -44,6 +44,7 @@ def callback(ch, method, properties, body):
             db.session.commit()
             print(ContentTypeEnum.product_updated)
         case ContentTypeEnum.product_deleted:
+            # here data is pure id
             product = Product.query.get(data)
             db.session.delete(product)
             db.session.commit()
