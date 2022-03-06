@@ -8,8 +8,7 @@ from main import Product, db
 
 queue_name = 'main'
 
-params: URLParameters = pika.URLParameters(
-    'amqps://auxgvlie:XDN7xkGQH2kFu6QmiHYDZg5GZ-E-h3SN@rat.rmq2.cloudamqp.com/auxgvlie')
+params: URLParameters = pika.URLParameters()
 
 connection: BlockingConnection = pika.BlockingConnection(params)
 
